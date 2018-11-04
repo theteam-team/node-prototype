@@ -1,0 +1,4 @@
+Green circle >>>>> start event
+red Circle >>>>>> End Event
+Orange Circle >>>> Input Event
+Blue Rect >>>>>> Print Task

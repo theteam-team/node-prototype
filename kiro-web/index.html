@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>ERP System</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+    
+<body>
+
+    <div class="row" style="text-align: center">
+
+        <button type="button" id="runButton" onclick="Run()">Run</button>
+
+        
+        <button type="button" id="deploy" onclick="ChangeMode(this.id)">Deploy Mode</button>
+        <button type="button" id ="test" onclick="ChangeMode(this.id)">Test Mode</button>
+        <button type="button" id ="debug" onclick="ChangeMode(this.id)">Debug Mode</button>
+        
+        <button type="button" onclick="Reset()">Reset</button>
+
+    </div>
+
+    <div class="row">
+
+        <div class="column left" style="height: auto;">
+            <div>Container Window</div>
+        </div>
+
+        <div class="column center" style="height: auto;">
+            <div>Workspace Window </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="column left">
+            <canvas id="container_canvas" style="border: 1px solid black;" ></canvas>
+        </div>
+
+        <div class="column center">
+            <canvas id="workspace_canvas" style="border: 1px solid black; width: 100%"></canvas>
+        </div>
+
+        <div class="column right" style="border: 1px solid black;">
+
+            <div class="caption">Properties</div>
+            <div class="inner" id="properties_window"></div>
+            
+            
+        </div>
+
+    </div>
+
+    <div class="outer">
+        <div class="caption">Outputs</div>
+        <div class="inner" id="outputs"></div>
+    </div>
+
+    <script type="text/javascript" src="js/shapes.js"></script>
+    <script type="text/javascript" src="js/collisions.js"></script>
+    <script type="text/javascript" src="js/render.js"></script>
+    <script type="text/javascript" src="js/events/event.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/events/window_events.js"></script>
+
+</body>
+
+</html>

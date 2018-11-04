@@ -1,0 +1,155 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background-color: #404040;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    user-select: none;
+    overflow: auto;
+    margin:0;
+    padding:0;
+}
+
+.header {
+    color: #e9e581;
+    padding: 5px;
+}
+.header h1{
+    margin: 0;
+    display:inline-block;
+}
+
+.outer {
+    width: 48.5%;
+    height: 270px;
+    background-color: aliceblue;
+    border: 3px solid rgb(48, 133, 48);
+    border-radius: 5px;
+    float: left;
+    margin: 0 0 1% 1%;
+}
+
+.caption {
+    background-color: rgb(48, 133, 48);
+    color: #e9e581;
+    padding: 1%;
+    padding-top: 0;
+    font-size: 24px;
+    width: auto;
+    height: 15%;
+    overflow: hidden;
+}
+
+.inner {
+    padding: 1%;
+    overflow: auto;
+    height: 85%;
+}
+
+.led {
+    width: 75px;
+    height: 100px;
+    opacity: 0.9;
+    float: left;
+    margin: 2px;
+    padding: 5px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #b0e260;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.red-bg
+{
+    padding: 1%;
+    background-color: rgba(211, 67, 74, 0.699);
+}
+.green-bg
+{
+    padding: 1%;
+    background-color: rgba(68, 209, 75, 0.616);
+}
+.blue-bg
+{
+    padding: 1%;
+    background-color: rgba(63, 141, 214, 0.699);
+}
+
+.log-bg
+{
+    padding: 1%;
+    background-color: rgba(97, 202, 49, 0.699);
+}
+
+.row
+{
+    width: 100%;
+    float: left;
+    margin: 2px;
+    padding: 2px;
+    border-radius: 10px;
+}
+.column1
+{
+    width: 18%;
+    float: left;
+    margin: 2px;
+    padding: 2px;
+    border-radius: 10px;
+}
+.column2
+{
+    width: 28%;
+    float: left;
+    margin: 2px;
+    padding: 2px;
+    border-radius: 10px;
+}
+.column3
+{
+    width: 48%;
+    float: left;
+    text-align: center;
+    margin: 2px;
+    padding: 2px;
+    border-radius: 10px;
+}
+.column-auto
+{
+    width: auto;
+    float: left;
+    margin: 2px;
+    padding: 2px;
+    border-radius: 10px;
+}
+.column
+{
+    width: 30%;
+    float: left;
+    margin: 2px;
+    padding: 2px;
+    border-radius: 10px;
+}
+.color-box {
+    width: 60px;
+    height: 30px;
+}
+
+@media(max-width:920px) {
+    .outer {
+        width: 98%;
+        height: auto;
+        max-height: 500px;
+        min-height: 250px;
+    }
+    .header h1 {
+        width: 98%
+    }
+}
