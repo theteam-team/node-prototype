@@ -8,12 +8,12 @@ import msvcrt as m
 class Application:
     
     def __init__(self, Parent):
+        self.waitForInput = False
         self._drag_data = {"x": 0, "y": 0, "item": None}
-        self.buffer = []
+        self.buffer = 'Hello'
         self.buf_index = 0
         self.ids = [0]
         self.shapes = {}
-        self.counter = 0
         self.pressed = False
         self.currentShape = None
         self.x = 0
@@ -29,7 +29,7 @@ class Application:
             }
 
     def createLayout(self, Parent):
-        
+        Parent.bind("i",self.close_window)
         self.leftFrame = Frame(Parent, bg="white") 
         self.leftFrame.pack(side=LEFT, fill = "both")
         self.rightFrame = Frame(Parent, bg="blue") 
@@ -45,7 +45,6 @@ class Application:
         self.canvas.tag_bind("token", "<ButtonRelease-1>", self.on_shapes_release)
         self.canvas.tag_bind("token", "<B3-Motion>", self.on_shapes_draw)
         self.canvas.tag_bind("token", "<ButtonRelease-3>", self.on_shapes_draw_releas)
-        #self.canvas.tag_bind("token", "<DoubleButton-1>", self.on_shapes_draw_releas)
         self.canvas.bind("<Motion>", self.motion)
         return [self.rightFrame, self.leftFrame]
 
@@ -132,7 +131,6 @@ class Application:
             self.y = z[1]
             self.id = self.generateId()
 
-        #if self.shapes[self.currentShape] != "End" :
         token = self.shapes[self.currentShape]
         self.currentLine =  token + str(self.id)
         self.canvas.delete(self.currentLine)
@@ -179,7 +177,6 @@ class Application:
             return
         curBlock  = start[0]
         while True:
-            #self.canvas.itemconfig(start, color = 'green')
             if curBlock in self.flow.keys():
                 nextBlock = self.flow[curBlock][0]
                 nextLine = self.flow[curBlock][1]
@@ -195,37 +192,30 @@ class Application:
             else:
                 messagebox.showwarning('Wrong Design', 'Flow is not connected properly')
                 return
+
     def end(self):
-        messagebox.showinfo('adawaw', 'successfuly run')
+        messagebox.showinfo('Result', 'successfuly run')
 
     def task(self):
-        txt = "value:"
+        txt = self.buffer
         self.buf_index = 0
-        if len(self.buffer) > 0: 
-            for i in self.buffer:
-                txt = txt + str(i) + " "
         messagebox.showinfo('info', txt)
         
-        print(txt)
     
-    def input(self):     
-        self.show = Toplevel()
-        self.entered = False
+    def input(self):
+        self.waitForInput = True     
+        self.show = Toplevel()       
+        self.show.withdraw()
         self.lb = Label(self.show, text = 'Enter your input', bd = 5)
-        self.lb.grid(row= 0, column = 3)
-        self.tx = Entry(self.show, bd = 5)
-        self.tx.grid(row= 0, column = 4)
-        self.button = Button(self.show, text = "OK", bd = 5, command = self.close_window)
-        self.button.grid(row = 0, column = 5)
-        
+        self.lb.grid(row= 0, column = 3) 
         self.show.mainloop()
-    def close_window(self):
-        self.txt = self.tx.get()
-        self.entered = True
-        self.buffer.append(self.txt)
-        self.buf_index += 1
-        self.show.quit()
-        self.show.destroy()
+    
+    def close_window(self, event):
+        if(self.waitForInput):
+            self.waitForInput = False    
+            print(event.char)
+            self.show.quit()
+            self.show.destroy()
    
      
 root = Tk()    
