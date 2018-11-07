@@ -24,6 +24,7 @@ class Application:
         self.currentShape = None
         self.x = 0
         self.y = 0
+        self.inputs = {}
         self.flowStarted = False
         list = self.createLayout(Parent)
         self.createShapes(list[1])
@@ -42,7 +43,7 @@ class Application:
         return
 
     def createLayout(self, Parent):
-        Parent.bind("i", self.input_wait_break)
+        Parent.bind("<Key>", self.close_window)
         self.leftFrame = Frame(Parent, bg="white") 
         self.leftFrame.pack(side=LEFT, fill = "both")
         self.rightFrame = Frame(Parent, bg="blue") 
@@ -102,9 +103,37 @@ class Application:
     def buttons_pressed(self, image , event, tag):
         if (tag == "Start") and tag in self.shapes.values():
             return    
-        #if(tag == 'input'):
         shape = self.canvas.create_image(event.x, event.y, image = image, tags= ("token", tag))
         self.shapes[shape] = tag
+        if(tag == 'Input'):
+            self.waitInput()
+            self.inputs[shape] = [self.cur_Key, False]
+            self.parent.bind(self.cur_Key, self.set_input)
+        
+        
+    def set_input(self, event):
+        for el in self.inputs.keys():
+            
+            if(self.inputs[el][0] == str(event.char)):
+                self.inputs[el][1] = True
+
+    def waitInput(self):
+        self.waitForInput = True     
+        self.show = Toplevel()       
+        #self.show.withdraw()
+        self.lb = Label(self.show, text = 'Enter your input', bd = 5)
+        self.lb.grid(row= 0, column = 3) 
+        self.show.mainloop()
+    
+    def close_window(self, event):
+        if(self.waitForInput):
+            self.cur_Key = event.char
+            self.cur_Key = str(self.cur_Key)
+            print(self.cur_Key)
+            self.waitForInput = False    
+            #print(event.char)
+            self.show.quit()
+            self.show.destroy()
       
 
     def shapes_pressed(self, event):
@@ -178,8 +207,8 @@ class Application:
                 list1 = [forward, line]
                 if(self.currentShape not in self.flow.keys()):
                     self.flow[self.currentShape] = []
-                    if forward not in self.GatewayDict.keys():
-                        self.GatewayDict[forward] = 0               
+                if forward not in self.GatewayDict.keys():
+                    self.GatewayDict[forward] = 0               
                 self.flow[self.currentShape].append(list1)                
                 if self.shapes[forward] == "Gateway":
                     self.GatewayDict[forward] += 1
@@ -205,6 +234,8 @@ class Application:
         self.flowStarted = False
         self.continueFlow = False
         self.flowBegin = False
+        self.GatewayDict.clear()
+        self.inputs.clear()
         if(self.clear_):
             self.loop.create_task(self.startFlow(0))
             self.clear_ = False
@@ -225,17 +256,13 @@ class Application:
         acc_win.mainloop()
 
     async def input(self, curInput):
-        self.waitForInput = True
         while True:
-            if(self.waitForInput):
+            if(not self.inputs[curInput][1]):
                 await asyncio.sleep(0.1)
                 continue
             else:
-                self.waitForInput = False
-                return     
-        
-    
-    
+                self.inputs[curInput][1] = True
+                return       
 
     def start(self):
         self.flowBegin = True
@@ -258,7 +285,8 @@ class Application:
                     tag = self.shapes[curBlock]
                     func = self.blocks[tag]
                     if self.shapes[curBlock] == 'Gateway':
-                        self.GatewayDict[curBlock] -= 1
+                        if(self.GatewayDict[curBlock] > 0):
+                            self.GatewayDict[curBlock] -= 1
                         if self.GatewayDict[curBlock] <= 0:
                             for el in self.flow[curBlock] :
                                 self.canvas.itemconfig(el[1], width = 3, fill = 'green') 
